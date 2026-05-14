@@ -1,0 +1,46 @@
+/* src/app/globals.css */
+@import "tailwindcss";
+
+@theme {
+  --color-brand-navy:   #1B2B5E;
+  --color-brand-blue:   #2563EB;
+  --color-brand-sky:    #3B82F6;
+  --color-brand-red:    #EF4444;
+  --color-brand-green:  #22C55E;
+  --color-brand-amber:  #F59E0B;
+  --color-brand-gray:   #F1F5F9;
+  --color-brand-border: #E2E8F0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-brand-gray);
+  color: #111827;
+}
+
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #D1D5DB; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-in  { animation: fadeIn 0.2s ease-out; }
+.fade-in     { animation-name: fadeIn; }
+.zoom-in-95  { animation-name: zoomIn; }
