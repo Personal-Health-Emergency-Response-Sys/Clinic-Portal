@@ -49,7 +49,7 @@ export function Sidebar({ user, onLogout }: SidebarProps) {
             <Activity className="h-4 w-4 text-white" />
           </div>
           <div>
-            <p className="text-white font-bold text-sm leading-none">SmartHERS</p>
+            <p className="text-white font-bold text-sm leading-none">PersonalHERS</p>
             <p className="text-blue-300 text-[10px] mt-0.5">Clinic Portal</p>
           </div>
         </div>

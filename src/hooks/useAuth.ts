@@ -13,7 +13,7 @@ import { fetchPortalClinic } from "@/lib/portalApi";
 import { ApiError } from "@/lib/api";
 import type { PortalUser } from "@/lib/types";
 
-const STAFF_ROLES = new Set(["clinic_admin", "clinic_operator"]);
+const STAFF_ROLES = new Set(["clinic_admin", "clinic_operator", "system_admin"]);
 
 function initialsFromPhone(phone: string): string {
   const digits = phone.replace(/\D/g, "");
@@ -73,11 +73,11 @@ export function useAuth() {
     const data = await loginRequest(trimmed, password);
     if (!STAFF_ROLES.has(data.user.role)) {
       throw new ApiError(
-        "This portal is only for clinic administrators and operators.",
+        "This portal is only for clinic and system administrators.",
         403,
       );
     }
-    if (!data.user.clinicId) {
+    if (data.user.role !== "system_admin" && !data.user.clinicId) {
       throw new ApiError("Your account is not assigned to a clinic yet.", 403);
     }
     const next: AuthSession = {
@@ -87,13 +87,15 @@ export function useAuth() {
     };
     setSession(next);
     setSessionState(next);
-    try {
-      const clinic = await fetchPortalClinic();
-      mergeSessionClinicName(clinic.name);
-      setSessionState(getSession());
-    } catch {
-      mergeSessionClinicName("Clinic");
-      setSessionState(getSession());
+    if (data.user.role !== "system_admin") {
+      try {
+        const clinic = await fetchPortalClinic();
+        mergeSessionClinicName(clinic.name);
+        setSessionState(getSession());
+      } catch {
+        mergeSessionClinicName("Clinic");
+        setSessionState(getSession());
+      }
     }
   }
 

@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/hooks/useAuth";
 import { ETHIOPIAN_PHONE_REGEX } from "@/lib/constants";
 import { ApiError } from "@/lib/api";
+import { getSession } from "@/lib/authSession";
 
 const schema = z.object({
   phone: z
@@ -40,7 +41,15 @@ export default function LoginPage() {
     setError("");
     try {
       await login(data.phone, data.password);
-      router.replace("/dashboard");
+      const role = getSession()?.user.role;
+      switch (role) {
+        case "system_admin":
+          router.replace("/admin/dashboard");
+          break;
+        default:
+          router.replace("/dashboard");
+          break;
+      }
     } catch (e) {
       const msg = e instanceof ApiError ? e.message : "Could not sign you in. Please try again.";
       setError(msg);

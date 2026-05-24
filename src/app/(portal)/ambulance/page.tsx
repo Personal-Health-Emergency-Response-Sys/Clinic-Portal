@@ -25,7 +25,7 @@ export default function AmbulancePage() {
   const [countInput, setCountInput] = useState(1);
 
   const expiry = clinic?.ambulanceExpiry ? new Date(clinic.ambulanceExpiry) : null;
-  const remaining = useCountdown(expiry);
+  const remaining = useCountdown(clinic?.ambulanceExpiry);
 
   async function refresh() {
     setLoadError("");
@@ -76,7 +76,7 @@ export default function AmbulancePage() {
     <>
       <Header
         title="Ambulance availability"
-        subtitle="Matches PUT /portal/clinic/ambulance on the SmartHERS API"
+        subtitle="Matches PUT /portal/clinic/ambulance on the PersonalHERS API"
         user={user}
       />
       <PageWrapper>
