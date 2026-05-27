@@ -39,7 +39,22 @@ export function getStatusColor(outcome: string): string {
   }
 }
 
-export function formatDate(date: Date): string {
+/**
+ * Format a date for display. Returns "—" for any unusable input
+ * (`null`, `undefined`, `""`, Invalid Date) instead of throwing
+ * `RangeError: Invalid time value` from Intl.DateTimeFormat — that
+ * crashes the whole React subtree when a backend field is missing.
+ *
+ * Accepts a `Date`, an ISO string, an epoch number, or any nullish
+ * value. Existing call sites that pass `new Date(stringFromApi)` keep
+ * working unchanged.
+ */
+export function formatDate(
+  input: Date | string | number | null | undefined,
+): string {
+  if (input === null || input === undefined || input === "") return "—";
+  const date = input instanceof Date ? input : new Date(input);
+  if (Number.isNaN(date.getTime())) return "—";
   return new Intl.DateTimeFormat("en-ET", {
     year: "numeric", month: "short", day: "2-digit",
     hour: "2-digit", minute: "2-digit",

@@ -11,7 +11,7 @@ import {
   Key,
   Settings,
   ScrollText,
-  UserX,
+  Users,
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,13 +21,13 @@ import { logoutRequest } from "@/lib/authApi";
 const CLINIC_ROLES = new Set(["clinic_admin", "clinic_operator"]);
 
 const ADMIN_NAV = [
-  { label: "Dashboard",          href: "/admin/dashboard",  Icon: LayoutDashboard },
-  { label: "Approve Clinics",    href: "/admin/claims",     Icon: ClipboardCheck },
-  { label: "MoH Import",         href: "/admin/moh-import", Icon: Upload },
-  { label: "HIS Keys",           href: "/admin/his-keys",   Icon: Key },
-  { label: "Settings",           href: "/admin/settings",   Icon: Settings },
-  { label: "Event Logs",         href: "/admin/logs",       Icon: ScrollText },
-  { label: "Deactivate Account", href: "/admin/deactivate", Icon: UserX },
+  { label: "Dashboard",       href: "/admin/dashboard",  Icon: LayoutDashboard },
+  { label: "Approve Clinics", href: "/admin/claims",     Icon: ClipboardCheck },
+  { label: "Users",           href: "/admin/users",      Icon: Users          },
+  { label: "MoH Import",      href: "/admin/moh-import", Icon: Upload         },
+  { label: "HIS Keys",        href: "/admin/his-keys",   Icon: Key            },
+  { label: "Settings",        href: "/admin/settings",   Icon: Settings       },
+  { label: "Event Logs",      href: "/admin/logs",       Icon: ScrollText     },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -37,8 +37,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
 
   useEffect(() => {
-    setSession(getSession());
-    setLoading(false);
+    queueMicrotask(() => {
+      setSession(getSession());
+      setLoading(false);
+    });
   }, []);
 
   useEffect(() => {

@@ -1,10 +1,10 @@
-import { PageWrapper } from "@/components/layout/PageWrapper";
+import { redirect } from "next/navigation";
 
-export default function AdminDeactivatePage() {
-  return (
-    <PageWrapper>
-      <h1 className="text-xl font-semibold text-gray-900 mb-2">Deactivate Account</h1>
-      <p className="text-sm text-gray-500">Coming soon.</p>
-    </PageWrapper>
-  );
+/**
+ * Legacy redirect: the old "Deactivate Account" nav item was repurposed
+ * into a full Users management page at /admin/users. Any old bookmark
+ * pointing at /admin/deactivate now lands on Users.
+ */
+export default function AdminDeactivateRedirect() {
+  redirect("/admin/users");
 }
