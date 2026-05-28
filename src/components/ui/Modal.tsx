@@ -11,7 +11,7 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
-  width?: "sm" | "md" | "lg";
+  width?: "sm" | "md" | "lg" | "xl" | "2xl";
 }
 
 export function Modal({ open, onClose, title, children, width = "md" }: ModalProps) {
@@ -25,24 +25,30 @@ export function Modal({ open, onClose, title, children, width = "md" }: ModalPro
 
   if (!open) return null;
 
-  const widths = { sm: "max-w-sm", md: "max-w-md", lg: "max-w-lg" };
+  const widths = {
+    sm: "max-w-sm",
+    md: "max-w-md",
+    lg: "max-w-lg",
+    xl: "max-w-2xl",
+    "2xl": "max-w-4xl",
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
       {/* Panel */}
       <div
         className={cn(
-          "relative w-full bg-white rounded-2xl shadow-xl border border-brand-border",
-          "animate-in fade-in zoom-in-95 duration-200",
+          "relative w-full bg-white rounded-2xl shadow-xl border border-brand-border my-8",
+          "animate-in fade-in zoom-in-95 duration-200 max-h-[calc(100vh-4rem)] flex flex-col",
           widths[width]
         )}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-brand-border">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-brand-border flex-shrink-0">
           <h3 className="text-base font-semibold text-gray-900">{title}</h3>
           <button
             onClick={onClose}
@@ -51,7 +57,7 @@ export function Modal({ open, onClose, title, children, width = "md" }: ModalPro
             <X className="h-4 w-4" />
           </button>
         </div>
-        <div className="p-6">{children}</div>
+        <div className="p-6 overflow-y-auto">{children}</div>
       </div>
     </div>
   );

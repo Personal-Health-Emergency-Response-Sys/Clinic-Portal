@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Eye, EyeOff, Activity, Shield } from "lucide-react";
+import { Eye, EyeOff, Activity, Shield, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { useAuth } from "@/hooks/useAuth";
@@ -128,10 +129,28 @@ export default function LoginPage() {
             Secure access · Only approved clinic accounts can log in
           </div>
         </div>
+
+        <div className="px-8 py-4 bg-brand-gray border-t border-brand-border flex items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-medium text-brand-navy">
+              New to SmartHERS?
+            </p>
+            <p className="text-[11px] text-gray-500">
+              Claim your clinic to get an admin account.
+            </p>
+          </div>
+          <Link
+            href="/claim"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-blue hover:bg-white border border-brand-border hover:border-brand-blue/40 transition-colors flex-shrink-0"
+          >
+            Claim a clinic
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
       </div>
 
       <p className="text-center text-xs text-gray-400 mt-4">
-        Need access? Ask your clinic administrator to invite you as an operator.
+        Drivers and operators: ask your clinic administrator to invite you.
       </p>
     </div>
   );
