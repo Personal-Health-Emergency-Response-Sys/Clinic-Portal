@@ -9,9 +9,13 @@ export function useCountdown(expiryDate: string | number | Date | null | undefin
 
   useEffect(() => {
     if (ms === null) return;
+    // Capture the narrowed value — `ms` inside the closure below would
+    // otherwise stay typed as `number | null` (TypeScript can't carry
+    // the guard above into the nested function), which breaks the build.
+    const target: number = ms;
 
     function tick() {
-      setRemaining(timeUntil(new Date(ms)));
+      setRemaining(timeUntil(new Date(target)));
     }
 
     tick();
